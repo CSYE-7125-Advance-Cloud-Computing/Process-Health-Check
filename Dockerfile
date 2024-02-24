@@ -5,3 +5,6 @@ RUN npm install
 
 COPY . .
 
+RUN npm install
+
+CMD ["node", "index.js"]
