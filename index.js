@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs');
-const db = require("../models");
+const db = require("./models");
 const SequelizeKafka = db.kafka;
 require('dotenv').config();
 
