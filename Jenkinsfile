@@ -34,10 +34,12 @@ pipeline {
         stage('Build & Push Docker Image') {
             steps {
                 script {
-                    sh "docker buildx ls"
-                    sh "docker buildx use webapplication"
-                    sh "docker buildx build --push --platform linux/amd64,linux/arm64 --tag DOCKER_IMAGE_NAME:$LATEST_TAG --tag DOCKER_IMAGE_NAME:latest ."
-                        
+                    withDockerRegistry(credentialsId: DOCKERHUB_CREDENTIALS) {
+                        sh "docker buildx ls"
+                        sh "docker buildx create --name webapplication"
+                        sh "docker buildx use webapplication"
+                        sh "docker buildx build --push --platform linux/amd64,linux/arm64 --tag $DOCKER_IMAGE_NAME:$LATEST_TAG --tag $DOCKER_IMAGE_NAME:latest ."
+                    }
                 }
             }
         }
